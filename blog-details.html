@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gourmet – Blog Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/inner-pages.css" />
+    <script>window.addEventListener('load', function() { setTimeout(function() { const loader = document.getElementById('loading-screen'); if (loader) loader.classList.add('hidden'); }, 400); });</script>
+</head>
+<body>
+    <div id="loading-screen"><div class="loader-spinner"></div><p>Loading...</p></div>
+    <button id="back-to-top"><i class="fas fa-chevron-up"></i></button>
+    <div id="scroll-progress"></div>
+
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="reservation.html">Reservation</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-icon" id="search-toggle"><i class="fas fa-search"></i></button>
+                    <button class="nav-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></button>
+                    <a href="reservation.html" class="btn btn-primary btn-sm">Reserve</a>
+                    <button class="theme-toggle" id="theme-toggle"><i class="fas fa-moon"></i></button>
+                    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600');">
+            <div class="container"><h1>Blog Details</h1></div>
+        </section>
+
+        <section class="blog-details-page section-padding">
+            <div class="container">
+                <div class="blog-details-content">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" alt="Featured" style="width:100%; border-radius:16px; max-height:400px; object-fit:cover;" />
+                    <h2 style="font-family:'Playfair Display',serif; margin:20px 0 10px;">Delicious Recipes for Summer</h2>
+                    <p style="color:#555; line-height:1.8;">Full blog content goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p style="color:#555; line-height:1.8;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    
+                    <h3 style="font-family:'Playfair Display',serif; margin:40px 0 20px;">Related Posts</h3>
+                    <div class="related-posts" id="related-posts" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:20px;"></div>
+                    
+                    <h3 style="font-family:'Playfair Display',serif; margin:40px 0 20px;">Comments</h3>
+                    <div class="comments-section" id="comments-section"></div>
+                    
+                    <h3 style="font-family:'Playfair Display',serif; margin:40px 0 20px;">Leave a Comment</h3>
+                    <form class="comment-form" id="comment-form" style="display:flex; flex-direction:column; gap:15px; max-width:600px;">
+                        <input type="text" placeholder="Your Name" required style="padding:12px 20px; border:2px solid #ddd; border-radius:50px;" />
+                        <textarea placeholder="Your Comment" required style="padding:12px 20px; border:2px solid #ddd; border-radius:16px; min-height:120px;"></textarea>
+                        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Post Comment</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a><p>Experience the finest dining.</p><div class="footer-social"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div></div>
+                <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="menu.html">Menu</a></li><li><a href="about.html">About</a></li><li><a href="reservation.html">Reservation</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+                <div class="footer-col"><h4>Opening Hours</h4><ul class="footer-hours"><li><span>Mon - Fri:</span> 11:00 AM - 11:00 PM</li><li><span>Sat - Sun:</span> 10:00 AM - 12:00 AM</li></ul></div>
+                <div class="footer-col"><h4>Contact</h4><ul class="footer-contact"><li><i class="fas fa-map-marker-alt"></i> 123 Main Street</li><li><i class="fas fa-phone"></i> +1 (555) 123-4567</li><li><i class="fas fa-envelope"></i> info@gourmet.com</li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Gourmet Restaurant.</p></div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/data.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/blog-details.js"></script>
+</body>
+</html>

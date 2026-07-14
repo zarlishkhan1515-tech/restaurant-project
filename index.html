@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gourmet Restaurant – Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <script>
+    // Force hide loading screen after 1 second
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            const loader = document.getElementById('loading-screen');
+            if (loader) loader.classList.add('hidden');
+        }, 500);
+    });
+</script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen"><div class="loader-spinner"></div><p>Loading...</p></div>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Search Popup -->
+    <div id="search-popup" class="search-popup">
+        <div class="search-popup-inner">
+            <button class="search-close" id="search-close"><i class="fas fa-times"></i></button>
+            <h3>Search Our Menu</h3>
+            <form id="search-form"><input type="text" placeholder="Search for dishes..." /><button type="submit"><i class="fas fa-search"></i></button></form>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="reservation.html">Reservation</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-icon" id="search-toggle"><i class="fas fa-search"></i></button>
+                    <button class="nav-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></button>
+                    <a href="reservation.html" class="btn btn-primary btn-sm">Reserve</a>
+                    <button class="theme-toggle" id="theme-toggle"><i class="fas fa-moon"></i></button>
+                    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SLIDER -->
+        <section class="hero" id="home">
+            <div class="hero-slider">
+                <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600');">
+                    <div class="container hero-content">
+                        <span class="hero-tag">Welcome to Gourmet</span>
+                        <h1>Exquisite Dining <br />Experience</h1>
+                        <p>Indulge in the finest culinary creations.</p>
+                        <div class="hero-buttons">
+                            <a href="menu.html" class="btn btn-primary">Order Now</a>
+                            <a href="reservation.html" class="btn btn-outline">Book a Table</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1600');">
+                    <div class="container hero-content">
+                        <span class="hero-tag">Award Winning</span>
+                        <h1>Flavors That <br />Delight</h1>
+                        <p>Every dish tells a story.</p>
+                        <div class="hero-buttons">
+                            <a href="menu.html" class="btn btn-primary">Order Now</a>
+                            <a href="reservation.html" class="btn btn-outline">Book a Table</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?w=1600');">
+                    <div class="container hero-content">
+                        <span class="hero-tag">Private Events</span>
+                        <h1>Celebrate With <br />Us</h1>
+                        <p>Host your special occasions here.</p>
+                        <div class="hero-buttons">
+                            <a href="menu.html" class="btn btn-primary">Order Now</a>
+                            <a href="reservation.html" class="btn btn-outline">Book a Table</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-controls">
+                <button class="hero-prev"><i class="fas fa-chevron-left"></i></button>
+                <div class="hero-dots"></div>
+                <button class="hero-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- FOOD CATEGORIES (6) -->
+        <section class="categories section-padding" id="categories">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Categories</span>
+                    <h2>Explore Our <span>Menu</span></h2>
+                </div>
+                <div class="categories-grid" id="categories-grid"></div>
+            </div>
+        </section>
+
+        <!-- TODAY'S SPECIAL -->
+        <section class="specials section-padding" id="specials">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Today's Special</span>
+                    <h2>Chef's <span>Recommendations</span></h2>
+                </div>
+                <div class="specials-grid" id="specials-grid"></div>
+            </div>
+        </section>
+
+        <!-- ABOUT HOME -->
+        <section class="about-home section-padding" id="about-home">
+            <div class="container">
+                <div class="about-home-grid">
+                    <div class="about-home-image">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600" alt="Restaurant" />
+                        <div class="about-experience-badge">15+ Years</div>
+                    </div>
+                    <div class="about-home-content">
+                        <span class="section-tag">About Us</span>
+                        <h2>Our <span>Story</span></h2>
+                        <p>Founded in 2010, Gourmet Restaurant has been a cornerstone of fine dining.</p>
+                        <p>We source the freshest local ingredients and transform them into memorable dishes.</p>
+                        <div class="about-stats" id="about-stats">
+                            <div class="stat"><span class="stat-number" data-count="15">0</span><span class="stat-label">Years</span></div>
+                            <div class="stat"><span class="stat-number" data-count="12500">0</span><span class="stat-label">Happy Customers</span></div>
+                            <div class="stat"><span class="stat-number" data-count="28">0</span><span class="stat-label">Chefs</span></div>
+                        </div>
+                        <a href="about.html" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US (6) -->
+        <section class="why-choose section-padding" id="why-choose">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Why Choose Us</span>
+                    <h2>We <span>Deliver Excellence</span></h2>
+                </div>
+                <div class="why-grid" id="why-grid"></div>
+            </div>
+        </section>
+
+        <!-- POPULAR MENU (12 items) -->
+        <section class="popular-menu section-padding" id="popular-menu">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Popular Menu</span>
+                    <h2>Our <span>Bestsellers</span></h2>
+                </div>
+                <div class="menu-grid" id="popular-menu-grid"></div>
+            </div>
+        </section>
+
+        <!-- SPECIAL OFFERS -->
+        <section class="offers section-padding" id="offers">
+            <div class="container">
+                <div class="offers-banner">
+                    <div class="offers-content">
+                        <span class="offers-tag">Special Offer</span>
+                        <h2>Get <span>20% Off</span> Your First Order</h2>
+                        <p>Use coupon code <strong>GOURMET20</strong></p>
+                        <a href="menu.html" class="btn btn-primary">Order Now</a>
+                    </div>
+                    <div class="offers-image"><i class="fas fa-tags"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MEET OUR CHEFS (4) -->
+        <section class="chefs section-padding" id="chefs">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Meet Our Chefs</span>
+                    <h2>Our <span>Culinary Team</span></h2>
+                </div>
+                <div class="chefs-grid" id="chefs-grid"></div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SLIDER -->
+        <section class="testimonials section-padding" id="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Testimonials</span>
+                    <h2>What Our <span>Guests Say</span></h2>
+                </div>
+                <div class="testimonial-slider">
+                    <div class="testimonial-track" id="testimonial-track"></div>
+                    <div class="testimonial-controls">
+                        <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY PREVIEW (12 images + filter) -->
+        <section class="gallery-preview section-padding" id="gallery-preview">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Gallery</span>
+                    <h2>Visual <span>Delights</span></h2>
+                </div>
+                <div class="gallery-filter" id="gallery-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="food">Food</button>
+                    <button class="filter-btn" data-filter="interior">Interior</button>
+                    <button class="filter-btn" data-filter="events">Events</button>
+                </div>
+                <div class="gallery-grid" id="gallery-grid"></div>
+                <div class="gallery-cta"><a href="gallery.html" class="btn btn-primary">View Full Gallery</a></div>
+            </div>
+        </section>
+
+        <!-- RESERVATION CTA -->
+        <section class="reservation-cta section-padding">
+            <div class="container">
+                <div class="reservation-cta-content">
+                    <h2>Ready for an <span>Unforgettable</span> Meal?</h2>
+                    <p>Book your table now.</p>
+                    <a href="reservation.html" class="btn btn-primary btn-lg">Book a Table</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSTAGRAM FEED (8 images) -->
+        <section class="instagram-feed section-padding" id="instagram">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Follow Us</span>
+                    <h2>Instagram <span>Feed</span></h2>
+                    <p>@gourmetrestaurant</p>
+                </div>
+                <div class="instagram-grid" id="instagram-grid"></div>
+            </div>
+        </section>
+
+        <!-- NEWSLETTER -->
+        <section class="newsletter section-padding" id="newsletter">
+            <div class="container">
+                <div class="newsletter-wrapper">
+                    <h2>Subscribe to Our <span>Newsletter</span></h2>
+                    <p>Get the latest updates and offers.</p>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required />
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+                    <p>Experience the finest dining.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="reservation.html">Reservation</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Opening Hours</h4>
+                    <ul class="footer-hours">
+                        <li><span>Mon - Fri:</span> 11:00 AM - 11:00 PM</li>
+                        <li><span>Sat - Sun:</span> 10:00 AM - 12:00 AM</li>
+                        <li><span>Holidays:</span> 12:00 PM - 10:00 PM</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Main Street</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@gourmet.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Gourmet Restaurant. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/data.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/home.js"></script>
+</body>
+</html>

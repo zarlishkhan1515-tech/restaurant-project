@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gourmet – Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f5f0; color: #1a1a1a; transition: 0.3s; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .section-padding { padding: 60px 0; }
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600') center/cover;
+            padding: 100px 0;
+            text-align: center;
+            color: #fff;
+        }
+        .page-hero h1 { font-size: 3rem; font-family: 'Playfair Display', serif; }
+        .page-hero p { font-size: 1.2rem; opacity: 0.9; }
+        .menu-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .filter-btn {
+            background: none;
+            border: 2px solid #ddd;
+            padding: 8px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 16px;
+            color: #333;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: #b8860b;
+            color: #fff;
+            border-color: #b8860b;
+        }
+        body.dark-mode { background: #1a1a1a; color: #f8f5f0; }
+        body.dark-mode .filter-btn { color: #eee; border-color: #555; }
+        body.dark-mode .filter-btn.active,
+        body.dark-mode .filter-btn:hover { background: #b8860b; color: #fff; border-color: #b8860b; }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+        .menu-item {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            position: relative;
+        }
+        .menu-item:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .menu-item .img-wrap {
+            height: 200px;
+            background: #e8e0d8;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-item .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .menu-item .fallback {
+            display: none;
+            position: absolute;
+            inset: 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #b8860b;
+            color: #fff;
+            font-size: 50px;
+            font-family: 'Playfair Display', serif;
+        }
+        .menu-item .fallback span { font-size: 20px; margin-top: 5px; }
+        .menu-item .img-wrap img.error + .fallback { display: flex; }
+        .menu-item .img-wrap img.error { display: none; }
+        .menu-item .info { padding: 15px 20px 20px; }
+        .menu-item .info h4 { font-family: 'Playfair Display', serif; margin-bottom: 5px; }
+        .menu-item .info .category-tag { font-size: 12px; color: #b8860b; font-weight: 600; text-transform: uppercase; }
+        .menu-item .info .meta { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; }
+        .menu-item .info .meta .price { font-weight: 700; font-size: 1.2rem; color: #b8860b; }
+        .menu-item .info .meta .rating { color: #f1c40f; }
+        .menu-item .info .add-btn { width: 100%; padding: 10px; border: none; border-radius: 50px; background: #b8860b; color: #fff; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .menu-item .info .add-btn:hover { background: #8b6508; transform: scale(1.02); }
+        body.dark-mode .menu-item { background: #2a2a2a; }
+        body.dark-mode .menu-item .info .category-tag { color: #daa520; }
+        body.dark-mode .menu-item .info .meta .price { color: #daa520; }
+
+        #loading-screen {
+            position: fixed; inset: 0; background: #1a1a1a;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999; transition: opacity 0.5s;
+        }
+        #loading-screen.hidden { opacity: 0; pointer-events: none; }
+        .loader-spinner { width: 60px; height: 60px; border: 4px solid #333; border-top: 4px solid #b8860b; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #loading-screen p { color: #fff; margin-top: 20px; font-family: 'Playfair Display', serif; letter-spacing: 2px; }
+
+        .footer {
+            background: #0d0d0d;
+            color: #ccc;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        .footer a { color: #b8860b; text-decoration: none; }
+        .footer .social a { color: #fff; margin: 0 10px; font-size: 20px; }
+        .footer .social a:hover { color: #b8860b; }
+        header {
+            background: #1a1a1a; color: #fff; padding: 15px 0;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        header a { color: #fff; margin: 0 10px; text-decoration: none; }
+        header a.active { color: #b8860b; font-weight: bold; }
+        header .logo { font-size: 1.8rem; font-family: 'Playfair Display', serif; color: #fff; text-decoration: none; }
+        header .logo i { color: #b8860b; }
+        .flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        @media (max-width: 768px) {
+            .page-hero h1 { font-size: 2.2rem; }
+            .menu-item .img-wrap { height: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen">
+        <div class="loader-spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container flex">
+            <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="menu.html" class="active">Menu</a>
+                <a href="about.html">About</a>
+                <a href="reservation.html">Reservation</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="blog.html">Blog</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Our Menu</h1>
+            <p>Explore our diverse culinary offerings</p>
+        </div>
+    </section>
+
+    <!-- ===== MENU SECTION ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="menu-categories" id="menu-categories"></div>
+            <div class="menu-grid" id="menu-grid"></div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p style="font-size:1.2rem; font-family:'Playfair Display',serif; color:#b8860b;">Gourmet</p>
+            <p style="margin:10px 0;">Experience the finest dining.</p>
+            <div class="social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p style="margin-top:15px; font-size:14px; color:#666;">&copy; 2026 Gourmet Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== FORCE HIDE LOADING =====
+        (function() {
+            var loader = document.getElementById('loading-screen');
+            if (loader) setTimeout(function() { loader.classList.add('hidden'); }, 500);
+        })();
+
+        // ===== MENU DATA (30 items) =====
+        // NOTE: BBQ Ribs (id:4) and Chicken Wings (id:26) have fallback text
+        // All other items have the same images as before (unchanged)
+        var menuItems = [
+            { id: 1, name: 'Truffle Pasta', category: 'Lunch', price: 22.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400' },
+            { id: 2, name: 'Chicken Burger', category: 'Burger', price: 14.99, rating: 4.5, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
+            { id: 3, name: 'Pepperoni Pizza', category: 'Pizza', price: 19.99, rating: 4.8, image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            // ===== BBQ RIBS (FIXED – with fallback) =====
+            { id: 4, name: 'BBQ Ribs', category: 'BBQ', price: 28.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ce2c?w=400', fallback: '🔥 BBQ Ribs' },
+            { id: 5, name: 'Sushi Platter', category: 'Chinese', price: 34.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400' },
+            { id: 6, name: 'Chocolate Cake', category: 'Desserts', price: 9.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+            { id: 7, name: 'Mango Smoothie', category: 'Drinks', price: 7.99, rating: 4.4, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400' },
+            { id: 8, name: 'Grilled Chicken', category: 'Lunch', price: 18.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400' },
+            { id: 9, name: 'Double Cheese Burger', category: 'Burger', price: 16.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400' },
+            { id: 10, name: 'Hawaiian Pizza', category: 'Pizza', price: 20.99, rating: 4.5, image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 11, name: 'Tiramisu', category: 'Desserts', price: 8.99, rating: 4.8, image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400' },
+            { id: 12, name: 'Iced Latte', category: 'Drinks', price: 6.99, rating: 4.3, image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
+            { id: 13, name: 'Margherita Pizza', category: 'Pizza', price: 18.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
+            { id: 14, name: 'Veggie Burger', category: 'Burger', price: 13.99, rating: 4.3, image: 'https://images.unsplash.com/photo-1550317138-10000687a72b?w=400' },
+            { id: 15, name: 'Fried Rice', category: 'Chinese', price: 12.99, rating: 4.4, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400' },
+            { id: 16, name: 'Cheesecake', category: 'Desserts', price: 7.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400' },
+            { id: 17, name: 'Lemonade', category: 'Drinks', price: 4.99, rating: 4.2, image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
+            { id: 18, name: 'Pasta Carbonara', category: 'Lunch', price: 21.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400' },
+            { id: 19, name: 'BBQ Chicken Pizza', category: 'Pizza', price: 22.99, rating: 4.5, image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+            { id: 20, name: 'Steak Frites', category: 'Dinner', price: 32.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=400' },
+            { id: 21, name: 'Caesar Salad', category: 'Lunch', price: 14.99, rating: 4.3, image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400' },
+            { id: 22, name: 'Chocolate Milkshake', category: 'Drinks', price: 5.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400' },
+            { id: 23, name: 'Vegetable Stir Fry', category: 'Chinese', price: 15.99, rating: 4.2, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400' },
+            { id: 24, name: 'Apple Pie', category: 'Desserts', price: 6.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400' },
+            { id: 25, name: 'Avocado Toast', category: 'Breakfast', price: 9.99, rating: 4.4, image: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400' },
+            // ===== CHICKEN WINGS (FIXED – with fallback) =====
+            { id: 26, name: 'Chicken Wings', category: 'BBQ', price: 16.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ce2c?w=400', fallback: '🍗 Wings' },
+            { id: 27, name: 'Mushroom Risotto', category: 'Lunch', price: 19.99, rating: 4.5, image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400' },
+            { id: 28, name: 'Grilled Salmon', category: 'Dinner', price: 29.99, rating: 4.8, image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400' },
+            { id: 29, name: 'French Fries', category: 'Drinks', price: 4.99, rating: 4.1, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400' },
+            { id: 30, name: 'Pancakes', category: 'Breakfast', price: 11.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400' }
+        ];
+
+        // ===== CATEGORIES =====
+        var categories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Pizza', 'Burger', 'BBQ', 'Chinese', 'Drinks', 'Desserts'];
+
+        // ===== RENDER =====
+        function renderMenu(category) {
+            var grid = document.getElementById('menu-grid');
+            if (!grid) return;
+            var filtered = category === 'All' ? menuItems : menuItems.filter(function(item) { return item.category === category; });
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; color:#6c757d;">No items in this category.</p>';
+                return;
+            }
+            var html = '';
+            filtered.forEach(function(item) {
+                var fallbackText = item.fallback || item.name;
+                var fallbackIcon = fallbackText.split(' ')[0];
+                var fallbackLabel = fallbackText.split(' ').slice(1).join(' ') || item.name;
+                html += '<div class="menu-item">';
+                html += '<div class="img-wrap">';
+                html += '<img src="' + item.image + '" alt="' + item.name + '" loading="lazy" onerror="this.classList.add(\'error\');" />';
+                html += '<div class="fallback">';
+                html += '<div>' + fallbackIcon + '</div>';
+                html += '<span>' + fallbackLabel + '</span>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="info">';
+                html += '<h4>' + item.name + '</h4>';
+                html += '<span class="category-tag">' + item.category + '</span>';
+                html += '<div class="meta">';
+                html += '<span class="price">$' + item.price + '</span>';
+                html += '<span class="rating"><i class="fas fa-star"></i> ' + item.rating + '</span>';
+                html += '</div>';
+                html += '<button class="add-btn" onclick="addToCart(\'' + item.name + '\')">Add to Cart</button>';
+                html += '</div>';
+                html += '</div>';
+            });
+            grid.innerHTML = html;
+        }
+
+        // ===== ADD TO CART =====
+        function addToCart(name) {
+            alert('✅ ' + name + ' added to cart!');
+            var countEl = document.querySelector('.cart-count');
+            if (countEl) {
+                var count = parseInt(countEl.textContent) || 0;
+                countEl.textContent = count + 1;
+            }
+        }
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Categories
+            var catContainer = document.getElementById('menu-categories');
+            if (catContainer) {
+                catContainer.innerHTML = categories.map(function(cat) {
+                    return '<button class="filter-btn ' + (cat === 'All' ? 'active' : '') + '" data-category="' + cat + '">' + cat + '</button>';
+                }).join('');
+                // Filter click
+                catContainer.addEventListener('click', function(e) {
+                    var btn = e.target.closest('.filter-btn');
+                    if (!btn) return;
+                    catContainer.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    renderMenu(btn.getAttribute('data-category'));
+                });
+            }
+            renderMenu('All');
+        });
+
+        // ===== DARK MODE TOGGLE =====
+        (function() {
+            var header = document.querySelector('header .flex');
+            if (header) {
+                var toggle = document.createElement('button');
+                toggle.innerHTML = '🌙';
+                toggle.style.cssText = 'background:none; border:none; color:#fff; font-size:24px; cursor:pointer; margin-left:15px;';
+                toggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    this.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+                });
+                var nav = header.querySelector('nav');
+                if (nav) nav.parentNode.insertBefore(toggle, nav.nextSibling);
+            }
+        })();
+    </script>
+</body>
+</html>
