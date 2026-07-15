@@ -9,51 +9,601 @@
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/inner-pages.css" />
+    <style>
+        /* Contact Page Styles */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .contact-info {
+            background: #fff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        body.dark-mode .contact-info {
+            background: #2a2a2a;
+        }
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #b8860b;
+            margin-bottom: 20px;
+        }
+        .contact-info .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+        .contact-info .info-item i {
+            width: 40px;
+            height: 40px;
+            background: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b8860b;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        body.dark-mode .contact-info .info-item i {
+            background: #1a1a1a;
+        }
+        .contact-info .info-item .text {
+            color: #333;
+            line-height: 1.6;
+        }
+        body.dark-mode .contact-info .info-item .text {
+            color: #eee;
+        }
+        .contact-info .info-item .text strong {
+            display: block;
+            font-weight: 600;
+        }
+        .contact-info .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .contact-info .social-links a {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #f8f5f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            transition: 0.3s;
+            text-decoration: none;
+            font-size: 20px;
+        }
+        .contact-info .social-links a:hover {
+            background: #b8860b;
+            color: #fff;
+        }
+        body.dark-mode .contact-info .social-links a {
+            background: #1a1a1a;
+            color: #ddd;
+        }
+
+        .contact-form-wrapper {
+            background: #fff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        body.dark-mode .contact-form-wrapper {
+            background: #2a2a2a;
+        }
+        .contact-form-wrapper h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #b8860b;
+            margin-bottom: 20px;
+        }
+        .contact-form-wrapper .form-group {
+            margin-bottom: 20px;
+        }
+        .contact-form-wrapper .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #333;
+        }
+        body.dark-mode .contact-form-wrapper .form-group label {
+            color: #eee;
+        }
+        .contact-form-wrapper .form-group input,
+        .contact-form-wrapper .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8e0d8;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: 0.3s;
+            background: #f8f5f0;
+            color: #333;
+        }
+        body.dark-mode .contact-form-wrapper .form-group input,
+        body.dark-mode .contact-form-wrapper .form-group textarea {
+            background: #1a1a1a;
+            border-color: #444;
+            color: #eee;
+        }
+        .contact-form-wrapper .form-group input:focus,
+        .contact-form-wrapper .form-group textarea:focus {
+            outline: none;
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.15);
+        }
+        .contact-form-wrapper .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .contact-form-wrapper .form-group .error-message {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+        .contact-form-wrapper .form-group.error input,
+        .contact-form-wrapper .form-group.error textarea {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+        .contact-form-wrapper .form-group.error .error-message {
+            display: block;
+        }
+        .contact-form-wrapper .btn-submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            background: #b8860b;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .contact-form-wrapper .btn-submit:hover {
+            background: #8b6508;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.3);
+        }
+
+        .google-map {
+            margin-top: 30px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        .google-map iframe {
+            width: 100%;
+            height: 350px;
+            border: none;
+            display: block;
+        }
+
+        /* Success Popup */
+        .success-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        .success-popup.active {
+            display: flex;
+        }
+        .success-popup .popup-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: popIn 0.4s ease;
+        }
+        body.dark-mode .success-popup .popup-content {
+            background: #2a2a2a;
+        }
+        .success-popup .popup-content .icon {
+            font-size: 64px;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+        .success-popup .popup-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        .success-popup .popup-content p {
+            color: #6c757d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        body.dark-mode .success-popup .popup-content p {
+            color: #aaa;
+        }
+        .success-popup .popup-content .btn-close {
+            padding: 10px 40px;
+            border: none;
+            border-radius: 50px;
+            background: #b8860b;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .success-popup .popup-content .btn-close:hover {
+            background: #8b6508;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .contact-info, .contact-form-wrapper {
+                padding: 25px;
+            }
+            .google-map iframe {
+                height: 250px;
+            }
+        }
+    </style>
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loading-screen');
+                if (loader) loader.classList.add('hidden');
+            }, 400);
+        });
+    </script>
 </head>
 <body>
-    <!-- header same -->
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen"><div class="loader-spinner"></div><p>Loading...</p></div>
 
-    <main>
-        <section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600');">
-            <div class="container"><h1>Contact Us</h1><p>Get in touch with us</p></div>
-        </section>
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="back-to-top"><i class="fas fa-chevron-up"></i></button>
 
-        <section class="contact-page section-padding">
-            <div class="container">
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <h2>Our Information</h2>
-                        <p><i class="fas fa-map-marker-alt"></i> 123 Main Street, Foodie City</p>
-                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                        <p><i class="fas fa-envelope"></i> info@gourmet.com</p>
-                        <p><i class="fas fa-clock"></i> Mon-Sat: 11AM - 11PM</p>
-                        <div class="footer-social">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
-                    <div class="contact-form">
-                        <h2>Send a Message</h2>
-                        <form id="contact-form">
-                            <input type="text" placeholder="Your Name" required />
-                            <input type="email" placeholder="Your Email" required />
-                            <textarea placeholder="Your Message" required></textarea>
-                            <button type="submit" class="btn btn-primary">Send</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="google-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316bb7f0b1%3A0xb123b6a5b8b3b3b3!2sNew%20York%20City!5e0!3m2!1sen!2sus!4v1610000000000" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <!-- ===== SCROLL PROGRESS ===== -->
+    <div id="scroll-progress"></div>
+
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="reservation.html">Reservation</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-icon" id="search-toggle"><i class="fas fa-search"></i></button>
+                    <button class="nav-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></button>
+                    <a href="reservation.html" class="btn btn-primary btn-sm">Reserve</a>
+                    <button class="theme-toggle" id="theme-toggle"><i class="fas fa-moon"></i></button>
+                    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
                 </div>
             </div>
-        </section>
-    </main>
+        </nav>
+    </header>
 
-    <!-- footer same -->
+    <!-- ===== PAGE HERO ===== -->
+    <section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600');">
+        <div class="container"><h1>Contact Us</h1><p>Get in touch with us</p></div>
+    </section>
 
-    <<script type="module" src="js/data.js"></script>
-<script type="module" src="js/main.js"></script>
-<script type="module" src="js/contact.js"></script>
+    <!-- ===== CONTENT ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <h2>Our Information</h2>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="text">
+                            <strong>Address</strong>
+                            123 Main Street, Foodie City
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="text">
+                            <strong>Phone</strong>
+                            +1 (555) 123-4567
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="text">
+                            <strong>Email</strong>
+                            info@gourmet.com
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="text">
+                            <strong>Working Hours</strong>
+                            Mon - Sat: 11:00 AM - 11:00 PM<br />
+                            Sunday: 10:00 AM - 10:00 PM
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h2>Send a Message</h2>
+                    <form id="contact-form" novalidate>
+                        <div class="form-group">
+                            <label for="contact-name">Your Name *</label>
+                            <input type="text" id="contact-name" placeholder="Enter your name" required />
+                            <span class="error-message">Please enter your name</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Your Email *</label>
+                            <input type="email" id="contact-email" placeholder="Enter your email" required />
+                            <span class="error-message">Please enter a valid email</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Your Message *</label>
+                            <textarea id="contact-message" placeholder="Write your message here..." required></textarea>
+                            <span class="error-message">Please enter your message</span>
+                        </div>
+                        <button type="submit" class="btn-submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Google Map -->
+            <div class="google-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316bb7f0b1%3A0xb123b6a5b8b3b3b3!2sNew%20York%20City!5e0!3m2!1sen!2sus!4v1610000000000" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+                    <p>Experience the finest dining.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="reservation.html">Reservation</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Opening Hours</h4>
+                    <ul class="footer-hours">
+                        <li><span>Mon - Fri:</span> 11:00 AM - 11:00 PM</li>
+                        <li><span>Sat - Sun:</span> 10:00 AM - 12:00 AM</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Main Street</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@gourmet.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 Gourmet Restaurant. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <!-- ===== SUCCESS POPUP ===== -->
+    <div class="success-popup" id="success-popup">
+        <div class="popup-content">
+            <div class="icon">✅</div>
+            <h3>Message Sent!</h3>
+            <p>Thank you for reaching out. We will get back to you as soon as possible.</p>
+            <button class="btn-close" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ===== FORM VALIDATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contact-form');
+            if (!form) return;
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                const fields = form.querySelectorAll('input[required], textarea[required]');
+                
+                fields.forEach(function(field) {
+                    const group = field.closest('.form-group');
+                    if (!group) return;
+                    
+                    group.classList.remove('error');
+                    
+                    if (!field.value.trim()) {
+                        group.classList.add('error');
+                        isValid = false;
+                    }
+                    
+                    // Email validation
+                    if (field.type === 'email' && field.value.trim()) {
+                        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailPattern.test(field.value.trim())) {
+                            group.classList.add('error');
+                            isValid = false;
+                        }
+                    }
+                });
+
+                if (isValid) {
+                    document.getElementById('success-popup').classList.add('active');
+                    form.reset();
+                } else {
+                    const firstError = form.querySelector('.form-group.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+
+            form.querySelectorAll('input, textarea').forEach(function(field) {
+                field.addEventListener('input', function() {
+                    const group = this.closest('.form-group');
+                    if (group) group.classList.remove('error');
+                });
+            });
+        });
+
+        // ===== CLOSE POPUP =====
+        function closePopup() {
+            document.getElementById('success-popup').classList.remove('active');
+        }
+
+        document.getElementById('success-popup').addEventListener('click', function(e) {
+            if (e.target === this) closePopup();
+        });
+
+        // ===== GLOBAL SCRIPTS (Theme, Back to Top, Search, Nav) =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-moon');
+                icon.classList.toggle('fa-sun');
+                localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            });
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const icon = themeToggle.querySelector('i');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        // Back to top
+        const backBtn = document.getElementById('back-to-top');
+        if (backBtn) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) backBtn.classList.add('visible');
+                else backBtn.classList.remove('visible');
+            });
+            backBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        }
+
+        // Scroll progress
+        const progress = document.getElementById('scroll-progress');
+        if (progress) {
+            window.addEventListener('scroll', function() {
+                const scrollTop = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                progress.style.width = (scrollTop / height) * 100 + '%';
+            });
+        }
+
+        // Mobile hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', function() { navMenu.classList.toggle('active'); });
+            navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', function() { navMenu.classList.remove('active'); }));
+        }
+
+        // Search popup
+        const searchToggle = document.getElementById('search-toggle');
+        const searchPopup = document.getElementById('search-popup');
+        const searchClose = document.getElementById('search-close');
+        if (searchToggle && searchPopup && searchClose) {
+            searchToggle.addEventListener('click', function() { searchPopup.classList.add('active'); });
+            searchClose.addEventListener('click', function() { searchPopup.classList.remove('active'); });
+            searchPopup.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+        }
+
+        // Sticky nav
+        const header = document.getElementById('header');
+        if (header) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 80) header.classList.add('sticky');
+                else header.classList.remove('sticky');
+            });
+        }
+    });
+
+    // ===== FORCE HIDE LOADING SCREEN (backup) =====
+    (function() {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+            setTimeout(function() {
+                loader.classList.add('hidden');
+            }, 800);
+        }
+    })();
+</script>
+
+<!-- ===== SEARCH POPUP (required for search toggle) ===== -->
+<div id="search-popup" class="search-popup">
+    <div class="search-popup-inner">
+        <button class="search-close" id="search-close"><i class="fas fa-times"></i></button>
+        <h3>Search Our Menu</h3>
+        <form id="search-form">
+            <input type="text" placeholder="Search for dishes..." />
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

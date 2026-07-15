@@ -3,329 +3,1276 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gourmet Restaurant – Home</title>
+    <title>Gourmet – Fine Dining Restaurant</title>
+    <meta name="description" content="Gourmet — a modern restaurant serving fresh, chef-crafted dishes. Order online or book a table." />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/home.css" />
-    <script>
-    // Force hide loading screen after 1 second
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            const loader = document.getElementById('loading-screen');
-            if (loader) loader.classList.add('hidden');
-        }, 500);
-    });
-</script>
+
+    <style>
+:root {
+    --primary: #b8860b;
+    --primary-dark: #8b6508;
+    --bg-dark: #1a1a1a;
+    --bg-light: #f8f5f0;
+    --text-dark: #1a1a1a;
+    --text-light: #f8f5f0;
+    --shadow: 0 8px 30px rgba(0,0,0,0.12);
+    --radius: 12px;
+    --transition: 0.3s ease;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    line-height:1.6;
+    transition: background 0.3s, color 0.3s;
+}
+.container { width:90%; max-width:1200px; margin:0 auto; }
+.section-padding { padding:80px 0; }
+.section-header { text-align:center; margin-bottom:50px; }
+.section-tag { color:var(--primary); font-weight:600; letter-spacing:2px; text-transform:uppercase; font-size:14px; }
+.section-header h2 { font-family:'Playfair Display',serif; font-size:2.8rem; }
+.section-header h2 span { color:var(--primary); }
+.section-header p { color:#6c757d; max-width:600px; margin:0 auto; }
+
+.btn {
+    display:inline-block; padding:12px 30px; border:none; border-radius:50px;
+    font-weight:600; cursor:pointer; transition:0.3s; text-decoration:none;
+}
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-primary:hover { background:var(--primary-dark); transform:translateY(-3px); box-shadow:0 10px 20px rgba(184,134,11,0.3); }
+.btn-outline { background:transparent; border:2px solid #fff; color:#fff; }
+.btn-outline:hover { background:#fff; color:#1a1a1a; }
+.btn-sm { padding:8px 20px; font-size:14px; }
+.btn-lg { padding:16px 40px; font-size:18px; }
+
+#loading-screen {
+    position:fixed; inset:0; background:#1a1a1a; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; z-index:9999; transition:opacity 0.5s;
+}
+#loading-screen.hidden { opacity:0; pointer-events:none; }
+.loader-spinner {
+    width:60px; height:60px; border:4px solid #333; border-top:4px solid var(--primary);
+    border-radius:50%; animation:spin 1s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+#loading-screen p { color:#fff; margin-top:20px; font-family:'Playfair Display',serif; letter-spacing:2px; }
+
+#back-to-top {
+    position:fixed; bottom:30px; right:30px; background:var(--primary); color:#fff;
+    border:none; width:50px; height:50px; border-radius:50%; font-size:20px;
+    cursor:pointer; opacity:0; visibility:hidden; transition:0.3s; z-index:999;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+#back-to-top.visible { opacity:1; visibility:visible; }
+#back-to-top:hover { background:var(--primary-dark); transform:translateY(-5px); }
+
+#scroll-progress {
+    position:fixed; top:0; left:0; height:4px; background:var(--primary); width:0%; z-index:9999;
+    transition:width 0.1s;
+}
+
+.header {
+    position:fixed; top:0; left:0; width:100%; z-index:1000; transition:0.3s;
+    background:transparent;
+}
+.header.sticky { background:rgba(26,26,26,0.95); backdrop-filter:blur(10px); box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+.navbar { padding:15px 0; }
+.nav-container { display:flex; align-items:center; justify-content:space-between; }
+.logo { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:#fff; text-decoration:none; }
+.logo i { color:var(--primary); margin-right:8px; }
+.nav-menu { display:flex; gap:30px; list-style:none; }
+.nav-menu a { color:#fff; font-weight:500; transition:0.3s; font-size:15px; text-decoration:none; }
+.nav-menu a:hover, .nav-menu a.active { color:var(--primary); }
+.nav-actions { display:flex; align-items:center; gap:15px; }
+.nav-icon { background:none; border:none; color:#fff; font-size:18px; cursor:pointer; position:relative; transition:0.3s; }
+.nav-icon:hover { color:var(--primary); }
+.cart-count { position:absolute; top:-8px; right:-10px; background:var(--primary); color:#fff; font-size:10px; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.theme-toggle { background:none; border:none; color:#fff; font-size:18px; cursor:pointer; }
+.hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; }
+.hamburger span { display:block; width:25px; height:3px; background:#fff; border-radius:3px; transition:0.3s; }
+.hamburger.active span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity:0; }
+.hamburger.active span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+
+.search-popup {
+    position:fixed; inset:0; background:rgba(0,0,0,0.9); display:flex; align-items:center;
+    justify-content:center; opacity:0; visibility:hidden; transition:0.3s; z-index:9998;
+}
+.search-popup.active { opacity:1; visibility:visible; }
+.search-popup-inner { background:#fff; padding:40px; border-radius:20px; max-width:500px; width:90%; position:relative; }
+.search-close { position:absolute; top:15px; right:20px; background:none; border:none; font-size:24px; cursor:pointer; }
+.search-popup-inner h3 { font-family:'Playfair Display',serif; margin-bottom:20px; }
+.search-popup-inner form { display:flex; gap:10px; }
+.search-popup-inner input { flex:1; padding:12px 20px; border:2px solid #ddd; border-radius:50px; outline:none; }
+.search-popup-inner button { background:var(--primary); color:#fff; border:none; padding:0 20px; border-radius:50px; cursor:pointer; }
+
+.footer { background:#0d0d0d; color:#ccc; padding:60px 0 20px; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+.footer-col .logo { color:#fff; font-size:1.6rem; }
+.footer-col p { margin:15px 0; font-size:14px; color:#888; }
+.footer-social { display:flex; gap:12px; }
+.footer-social a { width:40px; height:40px; background:#222; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; transition:0.3s; text-decoration:none; }
+.footer-social a:hover { background:var(--primary); }
+.footer-col h4 { color:#fff; font-size:18px; margin-bottom:20px; font-family:'Playfair Display',serif; }
+.footer-col ul li { margin-bottom:10px; list-style:none; }
+.footer-col ul li a { color:#888; transition:0.3s; text-decoration:none; }
+.footer-col ul li a:hover { color:var(--primary); }
+.footer-hours li { display:flex; justify-content:space-between; color:#888; list-style:none; }
+.footer-hours li span { color:#fff; }
+.footer-contact li { display:flex; align-items:center; gap:10px; color:#888; list-style:none; }
+.footer-contact li i { color:var(--primary); width:20px; }
+.footer-bottom { text-align:center; padding-top:30px; border-top:1px solid #222; font-size:14px; color:#555; }
+
+body.dark-mode { background:#1a1a1a; color:#f8f5f0; }
+body.dark-mode .header.sticky { background:rgba(10,10,10,0.98); }
+body.dark-mode .section-header p { color:#aaa; }
+body.dark-mode .search-popup-inner { background:#2a2a2a; color:#fff; }
+body.dark-mode .search-popup-inner input { background:#333; color:#fff; border-color:#555; }
+
+@media (max-width:992px) { .footer-grid { grid-template-columns:1fr 1fr; } }
+@media (max-width:768px) {
+    .hamburger { display:flex; }
+    .nav-menu {
+        position:absolute; top:70px; left:0; width:100%; background:rgba(0,0,0,0.95);
+        flex-direction:column; padding:30px; gap:20px; text-align:center;
+        transform:scaleY(0); transform-origin:top; transition:0.3s; border-radius:0 0 20px 20px;
+        max-height:0; overflow:hidden;
+    }
+    .nav-menu.active { transform:scaleY(1); max-height:500px; }
+    .nav-actions { gap:10px; }
+    .footer-grid { grid-template-columns:1fr; }
+}
+/* ===== HERO ===== */
+.hero { position:relative; height:100vh; min-height:600px; overflow:hidden; }
+.hero-slider { width:100%; height:100%; position:relative; }
+.hero-slide {
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    opacity:0; transition:opacity 1s ease; display:flex; align-items:center;
+}
+.hero-slide.active { opacity:1; }
+.hero-slide::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
+.hero-content { position:relative; z-index:2; color:#fff; max-width:700px; }
+.hero-tag { display:inline-block; background:var(--primary); padding:5px 20px; border-radius:50px; font-size:14px; font-weight:600; letter-spacing:1px; margin-bottom:20px; }
+.hero-content h1 { font-family:'Playfair Display',serif; font-size:4.5rem; line-height:1.1; margin-bottom:20px; }
+.hero-content p { font-size:1.2rem; margin-bottom:30px; opacity:0.9; max-width:500px; }
+.hero-buttons { display:flex; gap:15px; flex-wrap:wrap; }
+.hero-controls {
+    position:absolute; bottom:40px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:20px; z-index:10;
+}
+.hero-controls button {
+    background:rgba(255,255,255,0.2); border:none; color:#fff; width:45px; height:45px;
+    border-radius:50%; font-size:18px; cursor:pointer; transition:0.3s; backdrop-filter:blur(5px);
+}
+.hero-controls button:hover { background:var(--primary); }
+.hero-dots { display:flex; gap:8px; }
+.hero-dots span {
+    width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.4);
+    cursor:pointer; transition:0.3s;
+}
+.hero-dots span.active { background:var(--primary); width:30px; border-radius:10px; }
+
+/* ===== CATEGORIES ===== */
+.categories-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:25px; }
+.category-card { background:#fff; border-radius:15px; overflow:hidden; text-align:center; box-shadow:0 5px 20px rgba(0,0,0,0.06); transition:0.3s; cursor:pointer; }
+.category-card:hover { transform:translateY(-10px); box-shadow:0 15px 40px rgba(184,134,11,0.15); }
+.category-card img { width:100%; height:150px; object-fit:cover; display:block; }
+.category-card h3 { font-family:'Playfair Display',serif; margin:15px 0 5px; font-size:1.2rem; }
+.category-card p { color:#6c757d; font-size:14px; padding-bottom:15px; }
+
+/* ===== TODAY'S SPECIAL ===== */
+.specials-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:30px; }
+.special-card { background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.08); transition:0.3s; }
+.special-card:hover { transform:scale(1.03); box-shadow:0 20px 50px rgba(0,0,0,0.15); }
+.special-image { position:relative; height:220px; overflow:hidden; }
+.special-image img { width:100%; height:100%; object-fit:cover; display:block; }
+.discount-badge { position:absolute; top:15px; right:15px; background:#e74c3c; color:#fff; padding:5px 15px; border-radius:50px; font-weight:700; font-size:14px; }
+.special-info { padding:20px; }
+.special-info h3 { font-family:'Playfair Display',serif; }
+.special-meta { display:flex; justify-content:space-between; align-items:center; margin:10px 0 15px; }
+.special-meta .price { font-size:1.4rem; font-weight:700; color:var(--primary); }
+.rating { color:#f1c40f; font-size:14px; }
+
+/* ===== ABOUT HOME ===== */
+.about-home-grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; }
+.about-home-image { position:relative; border-radius:20px; overflow:hidden; }
+.about-home-image img { width:100%; height:400px; object-fit:cover; display:block; }
+.about-experience-badge { position:absolute; bottom:-20px; right:-20px; background:var(--primary); color:#fff; padding:20px 30px; border-radius:15px; font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; text-align:center; }
+.about-home-text .section-tag { display:block; margin-bottom:10px; }
+.about-home-text h2 { font-family:'Playfair Display',serif; font-size:2.4rem; margin-bottom:15px; }
+.about-home-text h2 span { color:var(--primary); }
+.about-home-text p { color:#6c757d; margin-bottom:20px; }
+.about-stats { display:flex; gap:30px; margin:20px 0; }
+.stat-number { font-size:2.5rem; font-weight:700; color:var(--primary); font-family:'Playfair Display',serif; }
+.stat-number span { display:inline; }
+.stat-label { font-size:14px; color:#6c757d; }
+
+/* ===== WHY CHOOSE US ===== */
+.why-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:30px; }
+.why-card { text-align:center; padding:30px 20px; background:#fff; border-radius:15px; transition:0.3s; box-shadow:0 5px 15px rgba(0,0,0,0.04); }
+.why-card:hover { transform:translateY(-10px); box-shadow:0 15px 40px rgba(184,134,11,0.1); }
+.why-icon { width:70px; height:70px; background:#fdf6e3; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; font-size:28px; color:var(--primary); }
+.why-card h3 { font-family:'Playfair Display',serif; margin-bottom:8px; }
+.why-card p { color:#6c757d; font-size:14px; }
+
+/* ===== POPULAR MENU ===== */
+.menu-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:25px; }
+.menu-item-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 5px 20px rgba(0,0,0,0.06); transition:0.3s; }
+.menu-item-card:hover { transform:translateY(-5px); box-shadow:0 15px 40px rgba(0,0,0,0.1); }
+.menu-item-card img { width:100%; height:200px; object-fit:cover; display:block; }
+.menu-item-info { padding:15px 20px 20px; }
+.menu-item-info h4 { font-family:'Playfair Display',serif; }
+.menu-item-info .category-tag { font-size:12px; color:var(--primary); font-weight:600; text-transform:uppercase; }
+.menu-item-meta { display:flex; justify-content:space-between; align-items:center; margin:10px 0; }
+.menu-item-meta .price { font-weight:700; font-size:1.2rem; color:var(--primary); }
+.menu-item-meta .rating { color:#f1c40f; }
+.menu-more { text-align:center; margin-top:40px; }
+
+/* ===== OFFERS BANNER ===== */
+.offers-banner { background:linear-gradient(135deg, #1a1a1a, #2d2d2d); border-radius:30px; padding:50px 60px; display:flex; align-items:center; justify-content:space-between; color:#fff; overflow:hidden; flex-wrap:wrap; gap:30px; }
+.offers-content h2 { font-family:'Playfair Display',serif; font-size:2.8rem; }
+.offers-content h2 span { color:var(--primary); }
+.offers-content p { margin:15px 0 25px; font-size:1.1rem; color:#ccc; }
+.offers-tag { display:inline-block; background:var(--primary); padding:4px 15px; border-radius:50px; font-size:12px; font-weight:600; letter-spacing:1px; }
+.offers-coupon { display:inline-flex; align-items:center; gap:10px; border:2px dashed var(--primary); padding:10px 20px; border-radius:10px; margin-bottom:20px; font-weight:700; letter-spacing:2px; }
+.offers-image { font-size:120px; color:var(--primary); opacity:0.3; }
+
+/* ===== CHEFS ===== */
+.chefs-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:30px; }
+.chef-card { background:#fff; border-radius:20px; overflow:hidden; text-align:center; padding:20px; box-shadow:0 5px 20px rgba(0,0,0,0.04); transition:0.3s; }
+.chef-card:hover { transform:translateY(-10px); box-shadow:0 15px 40px rgba(0,0,0,0.08); }
+.chef-card img { width:150px; height:150px; border-radius:50%; object-fit:cover; margin:0 auto 15px; border:5px solid var(--bg-light); display:block; }
+.chef-card h3 { font-family:'Playfair Display',serif; }
+.chef-card p { color:#6c757d; }
+.chef-social { display:flex; justify-content:center; gap:12px; margin-top:12px; }
+.chef-social a { width:35px; height:35px; background:var(--bg-light); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#333; transition:0.3s; text-decoration:none; }
+.chef-social a:hover { background:var(--primary); color:#fff; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonial-slider { position:relative; overflow:hidden; padding:20px 0; max-width:700px; margin:0 auto; }
+.testimonial-track { display:flex; transition:transform 0.5s ease; }
+.testimonial-card { min-width:100%; padding:0 20px; text-align:center; }
+.testimonial-image img { width:80px; height:80px; border-radius:50%; object-fit:cover; margin:0 auto 15px; border:4px solid var(--primary); display:block; }
+.testimonial-rating { color:#f1c40f; margin-bottom:10px; }
+.testimonial-card p { max-width:600px; margin:0 auto 15px; font-style:italic; color:#555; }
+.testimonial-card h4 { font-family:'Playfair Display',serif; }
+.testimonial-controls { display:flex; justify-content:center; gap:15px; margin-top:20px; }
+.testimonial-controls button { background:none; border:2px solid var(--primary); color:var(--primary); width:45px; height:45px; border-radius:50%; cursor:pointer; transition:0.3s; }
+.testimonial-controls button:hover { background:var(--primary); color:#fff; }
+
+/* ===== GALLERY PREVIEW ===== */
+.gallery-filter { display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-bottom:30px; }
+.filter-btn { background:none; border:2px solid #ddd; padding:8px 25px; border-radius:50px; cursor:pointer; font-weight:600; transition:0.3s; }
+.filter-btn.active, .filter-btn:hover { background:var(--primary); color:#fff; border-color:var(--primary); }
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:15px; }
+.gallery-item { position:relative; overflow:hidden; border-radius:12px; aspect-ratio:1; cursor:pointer; background:#f0ebe4; }
+.gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; display:block; }
+.gallery-item:hover img { transform:scale(1.1); }
+.gallery-cta { text-align:center; margin-top:30px; }
+
+/* ===== RESERVATION CTA ===== */
+.reservation-cta { background:linear-gradient(135deg, #1a1a1a, #2d2d2d); text-align:center; color:#fff; }
+.reservation-cta h2 { font-family:'Playfair Display',serif; font-size:2.8rem; }
+.reservation-cta h2 span { color:var(--primary); }
+.reservation-cta p { margin:15px 0 30px; font-size:1.2rem; color:#ccc; }
+
+/* ===== INSTAGRAM ===== */
+.instagram-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.insta-item { aspect-ratio:1; overflow:hidden; border-radius:10px; background:#e8e0d8; position:relative; }
+.insta-item img { width:100%; height:100%; object-fit:cover; transition:0.3s; display:block; }
+.insta-item:hover img { transform:scale(1.05); }
+
+/* ===== NEWSLETTER ===== */
+.newsletter-wrapper { background:#fdf6e3; padding:50px; border-radius:30px; text-align:center; }
+.newsletter-wrapper h2 { font-family:'Playfair Display',serif; font-size:2.4rem; }
+.newsletter-wrapper h2 span { color:var(--primary); }
+.newsletter-wrapper p { color:#6c757d; margin-top:10px; }
+.newsletter-form { display:flex; gap:15px; max-width:500px; margin:20px auto 0; }
+.newsletter-form input { flex:1; padding:15px 25px; border:2px solid #ddd; border-radius:50px; outline:none; }
+.newsletter-form input:focus { border-color:var(--primary); }
+.newsletter-form button { background:var(--primary); color:#fff; border:none; padding:0 30px; border-radius:50px; cursor:pointer; font-weight:600; transition:0.3s; }
+.newsletter-form button:hover { background:var(--primary-dark); }
+.newsletter-msg { margin-top:12px; font-size:14px; color:var(--primary); font-weight:600; min-height:20px; }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ===== DARK MODE (home sections) ===== */
+body.dark-mode .category-card { background:#2a2a2a; }
+body.dark-mode .category-card p { color:#aaa; }
+body.dark-mode .special-card { background:#2a2a2a; }
+body.dark-mode .special-card .price { color:#daa520; }
+body.dark-mode .about-home-text p { color:#aaa; }
+body.dark-mode .menu-item-card { background:#2a2a2a; }
+body.dark-mode .menu-item-card .price { color:#daa520; }
+body.dark-mode .why-card { background:#2a2a2a; }
+body.dark-mode .why-card p { color:#aaa; }
+body.dark-mode .chef-card { background:#2a2a2a; }
+body.dark-mode .chef-card img { border-color:#2a2a2a; }
+body.dark-mode .chef-social a { background:#1a1a1a; color:#ddd; }
+body.dark-mode .testimonial-card p { color:#ccc; }
+body.dark-mode .newsletter-wrapper { background:#2a2a2a; }
+body.dark-mode .newsletter-wrapper input { background:#333; color:#fff; border-color:#555; }
+body.dark-mode .filter-btn { border-color:#444; color:#f8f5f0; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:992px) {
+    .about-home-grid { grid-template-columns:1fr; }
+    .hero-content h1 { font-size:3.2rem; }
+    .instagram-grid { grid-template-columns:repeat(4,1fr); }
+}
+@media (max-width:768px) {
+    .hero-content h1 { font-size:2.4rem; }
+    .offers-banner { flex-direction:column; text-align:center; padding:40px 30px; }
+    .about-stats { flex-wrap:wrap; gap:20px; }
+    .instagram-grid { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:480px) {
+    .newsletter-form { flex-direction:column; }
+    .instagram-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+    </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen"><div class="loader-spinner"></div><p>Loading...</p></div>
 
-    <!-- Back to Top -->
-    <button id="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
-
-    <!-- Scroll Progress Bar -->
-    <div id="scroll-progress"></div>
-
-    <!-- Search Popup -->
-    <div id="search-popup" class="search-popup">
-        <div class="search-popup-inner">
-            <button class="search-close" id="search-close"><i class="fas fa-times"></i></button>
-            <h3>Search Our Menu</h3>
-            <form id="search-form"><input type="text" placeholder="Search for dishes..." /><button type="submit"><i class="fas fa-search"></i></button></form>
-        </div>
+    <!-- ===== LOADING SCREEN ===== -->
+    <div id="loading-screen">
+        <div class="loader-spinner"></div>
+        <p>GOURMET</p>
     </div>
 
-    <!-- Header / Navbar -->
-    <header class="header" id="header">
+    <!-- ===== SCROLL PROGRESS BAR ===== -->
+    <div id="scroll-progress"></div>
+
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header class="header">
         <nav class="navbar">
             <div class="container nav-container">
-                <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
+                <a href="index.html" class="logo"><i class="fa-solid fa-utensils"></i>Gourmet</a>
+
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="menu.html">Menu</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="reservation.html">Reservation</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="faq.html">FAQ</a></li>
                 </ul>
+
                 <div class="nav-actions">
-                    <button class="nav-icon" id="search-toggle"><i class="fas fa-search"></i></button>
-                    <button class="nav-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></button>
-                    <a href="reservation.html" class="btn btn-primary btn-sm">Reserve</a>
-                    <button class="theme-toggle" id="theme-toggle"><i class="fas fa-moon"></i></button>
-                    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+                    <button class="nav-icon" id="search-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="nav-icon" aria-label="Cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <a href="reservation.html" class="btn btn-primary btn-sm">Reserve Table</a>
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+                    <button class="hamburger" id="hamburger" aria-label="Menu">
+                        <span></span><span></span><span></span>
+                    </button>
                 </div>
             </div>
         </nav>
     </header>
 
-    <main>
-        <!-- HERO SLIDER -->
-        <section class="hero" id="home">
-            <div class="hero-slider">
-                <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600');">
-                    <div class="container hero-content">
-                        <span class="hero-tag">Welcome to Gourmet</span>
-                        <h1>Exquisite Dining <br />Experience</h1>
-                        <p>Indulge in the finest culinary creations.</p>
-                        <div class="hero-buttons">
-                            <a href="menu.html" class="btn btn-primary">Order Now</a>
-                            <a href="reservation.html" class="btn btn-outline">Book a Table</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1600');">
-                    <div class="container hero-content">
-                        <span class="hero-tag">Award Winning</span>
-                        <h1>Flavors That <br />Delight</h1>
-                        <p>Every dish tells a story.</p>
-                        <div class="hero-buttons">
-                            <a href="menu.html" class="btn btn-primary">Order Now</a>
-                            <a href="reservation.html" class="btn btn-outline">Book a Table</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?w=1600');">
-                    <div class="container hero-content">
-                        <span class="hero-tag">Private Events</span>
-                        <h1>Celebrate With <br />Us</h1>
-                        <p>Host your special occasions here.</p>
-                        <div class="hero-buttons">
-                            <a href="menu.html" class="btn btn-primary">Order Now</a>
-                            <a href="reservation.html" class="btn btn-outline">Book a Table</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-controls">
-                <button class="hero-prev"><i class="fas fa-chevron-left"></i></button>
-                <div class="hero-dots"></div>
-                <button class="hero-next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-        </section>
+    <!-- ===== SEARCH POPUP ===== -->
+    <div class="search-popup" id="search-popup">
+        <div class="search-popup-inner">
+            <button class="search-close" id="search-close" aria-label="Close search">&times;</button>
+            <h3>Search Our Menu</h3>
+            <form onsubmit="return false;">
+                <input type="text" placeholder="Search for dishes..." />
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </div>
 
-        <!-- FOOD CATEGORIES (6) -->
-        <section class="categories section-padding" id="categories">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Categories</span>
-                    <h2>Explore Our <span>Menu</span></h2>
-                </div>
-                <div class="categories-grid" id="categories-grid"></div>
-            </div>
-        </section>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-slider" id="hero-slider"></div>
+        <div class="hero-controls">
+            <button id="hero-prev" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="hero-dots" id="hero-dots"></div>
+            <button id="hero-next" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </section>
 
-        <!-- TODAY'S SPECIAL -->
-        <section class="specials section-padding" id="specials">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Today's Special</span>
-                    <h2>Chef's <span>Recommendations</span></h2>
-                </div>
-                <div class="specials-grid" id="specials-grid"></div>
+    <!-- ===== FOOD CATEGORIES ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Explore</span>
+                <h2>Food <span>Categories</span></h2>
+                <p>Browse our menu by your favorite type of cuisine.</p>
             </div>
-        </section>
+            <div class="categories-grid" id="categories-grid"></div>
+        </div>
+    </section>
 
-        <!-- ABOUT HOME -->
-        <section class="about-home section-padding" id="about-home">
-            <div class="container">
-                <div class="about-home-grid">
-                    <div class="about-home-image">
-                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600" alt="Restaurant" />
-                        <div class="about-experience-badge">15+ Years</div>
-                    </div>
-                    <div class="about-home-content">
-                        <span class="section-tag">About Us</span>
-                        <h2>Our <span>Story</span></h2>
-                        <p>Founded in 2010, Gourmet Restaurant has been a cornerstone of fine dining.</p>
-                        <p>We source the freshest local ingredients and transform them into memorable dishes.</p>
-                        <div class="about-stats" id="about-stats">
-                            <div class="stat"><span class="stat-number" data-count="15">0</span><span class="stat-label">Years</span></div>
-                            <div class="stat"><span class="stat-number" data-count="12500">0</span><span class="stat-label">Happy Customers</span></div>
-                            <div class="stat"><span class="stat-number" data-count="28">0</span><span class="stat-label">Chefs</span></div>
-                        </div>
-                        <a href="about.html" class="btn btn-primary">Learn More</a>
-                    </div>
+    <!-- ===== TODAY'S SPECIAL ===== -->
+    <section class="section-padding" style="background:#fff;">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Chef's Pick</span>
+                <h2>Today's <span>Special</span></h2>
+                <p>Limited-time dishes crafted fresh by our culinary team.</p>
+            </div>
+            <div class="specials-grid" id="specials-grid"></div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT (HOME PREVIEW) ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="about-home-grid">
+                <div class="about-home-image reveal">
+                    <img id="about-home-img" src="" alt="Inside Gourmet restaurant" loading="lazy">
+                    <div class="about-experience-badge" id="about-experience-badge"></div>
+                </div>
+                <div class="about-home-text reveal">
+                    <span class="section-tag" id="about-home-tag"></span>
+                    <h2 id="about-home-title"></h2>
+                    <p id="about-home-text"></p>
+                    <div class="about-stats" id="about-stats"></div>
+                    <a href="about.html" class="btn btn-primary">Discover Our Story</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- WHY CHOOSE US (6) -->
-        <section class="why-choose section-padding" id="why-choose">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Why Choose Us</span>
-                    <h2>We <span>Deliver Excellence</span></h2>
-                </div>
-                <div class="why-grid" id="why-grid"></div>
+    <!-- ===== WHY CHOOSE US ===== -->
+    <section class="section-padding" style="background:#fff;">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Our Promise</span>
+                <h2>Why <span>Choose Us</span></h2>
+                <p>What makes every visit to Gourmet worth it.</p>
             </div>
-        </section>
+            <div class="why-grid" id="why-grid"></div>
+        </div>
+    </section>
 
-        <!-- POPULAR MENU (12 items) -->
-        <section class="popular-menu section-padding" id="popular-menu">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Popular Menu</span>
-                    <h2>Our <span>Bestsellers</span></h2>
-                </div>
-                <div class="menu-grid" id="popular-menu-grid"></div>
+    <!-- ===== POPULAR MENU ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Popular Menu</span>
+                <h2>Our <span>Bestsellers</span></h2>
+                <p>Most loved dishes by our guests.</p>
             </div>
-        </section>
+            <div class="menu-grid" id="menu-grid"></div>
+            <div class="menu-more reveal">
+                <a href="menu.html" class="btn btn-outline" style="border-color:var(--primary); color:var(--primary);">View Full Menu</a>
+            </div>
+        </div>
+    </section>
 
-        <!-- SPECIAL OFFERS -->
-        <section class="offers section-padding" id="offers">
-            <div class="container">
-                <div class="offers-banner">
-                    <div class="offers-content">
-                        <span class="offers-tag">Special Offer</span>
-                        <h2>Get <span>20% Off</span> Your First Order</h2>
-                        <p>Use coupon code <strong>GOURMET20</strong></p>
+    <!-- ===== SPECIAL OFFERS ===== -->
+    <section class="section-padding" style="background:#fff;">
+        <div class="container">
+            <div class="offers-banner reveal">
+                <div class="offers-content">
+                    <span class="offers-tag" id="offer-tag"></span>
+                    <h2 id="offer-title" style="margin-top:15px;"></h2>
+                    <p id="offer-text"></p>
+                    <div class="offers-coupon" id="offer-coupon"></div>
+                    <div>
                         <a href="menu.html" class="btn btn-primary">Order Now</a>
                     </div>
-                    <div class="offers-image"><i class="fas fa-tags"></i></div>
                 </div>
+                <div class="offers-image"><i class="fa-solid fa-pizza-slice"></i></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- MEET OUR CHEFS (4) -->
-        <section class="chefs section-padding" id="chefs">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Meet Our Chefs</span>
-                    <h2>Our <span>Culinary Team</span></h2>
-                </div>
-                <div class="chefs-grid" id="chefs-grid"></div>
+    <!-- ===== MEET OUR CHEFS ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Our Team</span>
+                <h2>Meet Our <span>Chefs</span></h2>
+                <p>The talented people behind every plate.</p>
             </div>
-        </section>
+            <div class="chefs-grid" id="chefs-grid"></div>
+        </div>
+    </section>
 
-        <!-- TESTIMONIALS SLIDER -->
-        <section class="testimonials section-padding" id="testimonials">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Testimonials</span>
-                    <h2>What Our <span>Guests Say</span></h2>
-                </div>
-                <div class="testimonial-slider">
-                    <div class="testimonial-track" id="testimonial-track"></div>
-                    <div class="testimonial-controls">
-                        <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section-padding" style="background:#fff;">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Testimonials</span>
+                <h2>What Our <span>Guests Say</span></h2>
             </div>
-        </section>
-
-        <!-- GALLERY PREVIEW (12 images + filter) -->
-        <section class="gallery-preview section-padding" id="gallery-preview">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Gallery</span>
-                    <h2>Visual <span>Delights</span></h2>
-                </div>
-                <div class="gallery-filter" id="gallery-filter">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="food">Food</button>
-                    <button class="filter-btn" data-filter="interior">Interior</button>
-                    <button class="filter-btn" data-filter="events">Events</button>
-                </div>
-                <div class="gallery-grid" id="gallery-grid"></div>
-                <div class="gallery-cta"><a href="gallery.html" class="btn btn-primary">View Full Gallery</a></div>
+            <div class="testimonial-slider">
+                <div class="testimonial-track" id="testimonial-track"></div>
             </div>
-        </section>
-
-        <!-- RESERVATION CTA -->
-        <section class="reservation-cta section-padding">
-            <div class="container">
-                <div class="reservation-cta-content">
-                    <h2>Ready for an <span>Unforgettable</span> Meal?</h2>
-                    <p>Book your table now.</p>
-                    <a href="reservation.html" class="btn btn-primary btn-lg">Book a Table</a>
-                </div>
+            <div class="testimonial-controls">
+                <button id="testimonial-prev" aria-label="Previous testimonial"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="testimonial-next" aria-label="Next testimonial"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
-        </section>
-
-        <!-- INSTAGRAM FEED (8 images) -->
-        <section class="instagram-feed section-padding" id="instagram">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">Follow Us</span>
-                    <h2>Instagram <span>Feed</span></h2>
-                    <p>@gourmetrestaurant</p>
-                </div>
-                <div class="instagram-grid" id="instagram-grid"></div>
             </div>
-        </section>
+    </section>
 
-        <!-- NEWSLETTER -->
-        <section class="newsletter section-padding" id="newsletter">
-            <div class="container">
-                <div class="newsletter-wrapper">
-                    <h2>Subscribe to Our <span>Newsletter</span></h2>
-                    <p>Get the latest updates and offers.</p>
-                    <form class="newsletter-form" id="newsletter-form">
-                        <input type="email" placeholder="Enter your email" required />
-                        <button type="submit" class="btn btn-primary">Subscribe</button>
-                    </form>
-                </div>
+    <!-- ===== GALLERY PREVIEW ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Gallery</span>
+                <h2>A Glimpse <span>Inside</span></h2>
             </div>
-        </section>
-    </main>
+            <div class="gallery-filter" id="gallery-filter"></div>
+            <div class="gallery-grid" id="gallery-grid"></div>
+            <div class="gallery-cta reveal">
+                <a href="gallery.html" class="btn btn-primary">View Full Gallery</a>
+            </div>
+        </div>
+    </section>
 
-    <!-- FOOTER -->
+    <!-- ===== RESERVATION CTA ===== -->
+    <section class="section-padding reservation-cta">
+        <div class="container">
+            <h2 class="reveal">Reserve Your <span>Table</span> Today</h2>
+            <p class="reveal">Join us for an unforgettable dining experience — book in under a minute.</p>
+            <a href="reservation.html" class="btn btn-primary btn-lg reveal">Book a Table</a>
+        </div>
+    </section>
+
+    <!-- ===== INSTAGRAM FEED ===== -->
+    <section class="section-padding" style="background:#fff;">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">@gourmet.restaurant</span>
+                <h2>Follow Us on <span>Instagram</span></h2>
+            </div>
+            <div class="instagram-grid" id="instagram-grid"></div>
+        </div>
+    </section>
+
+    <!-- ===== NEWSLETTER ===== -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="newsletter-wrapper reveal">
+                <h2>Join Our <span>Newsletter</span></h2>
+                <p>Get exclusive offers and updates straight to your inbox.</p>
+                <form class="newsletter-form" id="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required />
+                    <button type="submit">Subscribe</button>
+                </form>
+                <p class="newsletter-msg" id="newsletter-msg"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <a href="index.html" class="logo"><i class="fas fa-utensils"></i> Gourmet</a>
-                    <p>Experience the finest dining.</p>
+                    <a href="index.html" class="logo"><i class="fa-solid fa-utensils"></i>Gourmet</a>
+                    <p>Modern, chef-crafted dining in the heart of the city. Fresh ingredients, bold flavors, every day.</p>
                     <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
                         <li><a href="menu.html">Menu</a></li>
-                        <li><a href="about.html">About</a></li>
+                        <li><a href="about.html">About Us</a></li>
                         <li><a href="reservation.html">Reservation</a></li>
                         <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="blog.html">Blog</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Opening Hours</h4>
                     <ul class="footer-hours">
-                        <li><span>Mon - Fri:</span> 11:00 AM - 11:00 PM</li>
-                        <li><span>Sat - Sun:</span> 10:00 AM - 12:00 AM</li>
-                        <li><span>Holidays:</span> 12:00 PM - 10:00 PM</li>
+                        <li>Mon - Fri <span>11:00 - 23:00</span></li>
+                        <li>Sat - Sun <span>10:00 - 00:00</span></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Contact</h4>
                     <ul class="footer-contact">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Main Street</li>
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-envelope"></i> info@gourmet.com</li>
+                        <li><i class="fa-solid fa-location-dot"></i> 123 Flavor Street, Food City</li>
+                        <li><i class="fa-solid fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fa-solid fa-envelope"></i> hello@gourmet.com</li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2026 Gourmet Restaurant. All rights reserved.</p></div>
+            <div class="footer-bottom">
+                &copy; 2026 Gourmet Restaurant. All rights reserved.
+            </div>
         </div>
     </footer>
 
-    <script type="module" src="js/data.js"></script>
-<script type="module" src="js/main.js"></script>
-<script type="module" src="js/home.js"></script>
+    <!-- ===== BACK TO TOP ===== -->
+    <button id="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <script>
+// ==========================================
+// ALL DATA FOR THE RESTAURANT WEBSITE
+// ==========================================
+
+// 0. HERO SLIDES (Home page slider)
+const heroSlides = [
+    {
+        id: 1,
+        tag: 'Fine Dining Experience',
+        title: 'Savor Every <span>Bite</span> of Perfection',
+        text: 'Fresh ingredients, bold flavors, and dishes crafted by award-winning chefs — delivered to your table or your door.',
+        image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600'
+    },
+    {
+        id: 2,
+        tag: "Chef's Special",
+        title: 'Handmade Pizzas, <span>Fired</span> Fresh',
+        text: 'Wood-fired, stone-baked, and topped with the finest local produce every single day.',
+        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1600'
+    },
+    {
+        id: 3,
+        tag: 'Weekend Offer',
+        title: 'Gather Around, <span>Taste</span> Together',
+        text: 'Book a table for your next celebration and enjoy 20% off on all main courses.',
+        image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600'
+    }
+];
+
+// 0b. SPECIAL OFFER BANNER
+const offer = {
+    title: 'Get 25% Off Your First Order',
+    text: 'Use the code below at checkout and treat yourself to a meal you will not forget.',
+    tag: 'Limited Time',
+    coupon: 'GOURMET25'
+};
+
+// 0c. ABOUT (Home preview)
+const aboutHome = {
+    image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=700',
+    experienceYears: 15,
+    tag: 'Our Story',
+    title: 'A Legacy of <span>Fine Taste</span> Since 2010',
+    text: 'Gourmet began as a small family kitchen and has grown into a beloved dining destination, staying true to one promise: every plate leaves the kitchen with care.',
+    stats: [
+        { number: 15, suffix: '+', label: 'Years of Experience' },
+        { number: 8500, suffix: '+', label: 'Happy Customers' },
+        { number: 12, suffix: '+', label: 'Professional Chefs' }
+    ]
+};
+
+// 1. FOOD CATEGORIES (6)
+const categories = [
+    { id: 1, name: 'Pizza', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400', desc: 'Wood-fired perfection' },
+    { id: 2, name: 'Burger', image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400', desc: 'Juicy & gourmet' },
+    { id: 3, name: 'BBQ', image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ce2c?w=400', desc: 'Smoked to perfection' },
+    { id: 4, name: 'Chinese', image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400', desc: 'Authentic & flavorful' },
+    { id: 5, name: 'Desserts', image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400', desc: 'Sweet indulgence' },
+    { id: 6, name: 'Drinks', image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400', desc: 'Refreshing beverages' }
+];
+
+// 2. TODAY'S SPECIAL (3)
+const specials = [
+    { id: 1, name: 'Grilled Salmon', price: 24.99, rating: 4.8, image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500', discount: 20 },
+    { id: 2, name: 'Ribeye Steak', price: 32.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500', discount: 15 },
+    { id: 3, name: 'Margherita Pizza', price: 18.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500', discount: 25 }
+];
+
+// 3. POPULAR MENU (12 Items)
+const menuItems = [
+    { id: 1, name: 'Truffle Pasta', category: 'Lunch', price: 22.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400' },
+    { id: 2, name: 'Chicken Burger', category: 'Burger', price: 14.99, rating: 4.5, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
+    { id: 3, name: 'Pepperoni Pizza', category: 'Pizza', price: 19.99, rating: 4.8, image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+    { id: 4, name: 'BBQ Ribs', category: 'BBQ', price: 28.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ce2c?w=400' },
+    { id: 5, name: 'Sushi Platter', category: 'Chinese', price: 34.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400' },
+    { id: 6, name: 'Chocolate Cake', category: 'Desserts', price: 9.99, rating: 4.9, image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+    { id: 7, name: 'Mango Smoothie', category: 'Drinks', price: 7.99, rating: 4.4, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400' },
+    { id: 8, name: 'Grilled Chicken', category: 'Lunch', price: 18.99, rating: 4.6, image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400' },
+    { id: 9, name: 'Double Cheese Burger', category: 'Burger', price: 16.99, rating: 4.7, image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400' },
+    { id: 10, name: 'Hawaiian Pizza', category: 'Pizza', price: 20.99, rating: 4.5, image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+    { id: 11, name: 'Tiramisu', category: 'Desserts', price: 8.99, rating: 4.8, image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400' },
+    { id: 12, name: 'Iced Latte', category: 'Drinks', price: 6.99, rating: 4.3, image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' }
+];
+
+// 4. CHEFS (4)
+const chefs = [
+    { id: 1, name: 'Marco Rossi', position: 'Executive Chef', image: 'https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=400' },
+    { id: 2, name: 'Maria Gonzalez', position: 'Pastry Chef', image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400' },
+    { id: 3, name: 'James Chen', position: 'Head Chef', image: 'https://images.unsplash.com/photo-1611062623628-9aa17fb97acc?w=400' },
+    { id: 4, name: 'Sarah Williams', position: 'Sous Chef', image: 'https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=400' }
+];
+
+// 5. TESTIMONIALS (3)
+const testimonials = [
+    { id: 1, name: 'Emily Johnson', review: 'An unforgettable dining experience. The flavors, the ambiance, the service – everything was impeccable!', rating: 5, image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150' },
+    { id: 2, name: 'Michael Smith', review: 'Best restaurant in town! The steak was cooked to perfection.', rating: 5, image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150' },
+    { id: 3, name: 'Sophia Lee', review: 'The desserts are absolutely divine! A must-visit.', rating: 5, image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150' }
+];
+
+// 6. WHY CHOOSE US (6)
+const whyChoose = [
+    { icon: 'fa-leaf', title: 'Fresh Ingredients', desc: 'Locally sourced, seasonal produce daily.' },
+    { icon: 'fa-user-tie', title: 'Professional Chefs', desc: 'World-class culinary talent.' },
+    { icon: 'fa-truck', title: 'Fast Delivery', desc: 'Hot and fresh food delivered to your door.' },
+    { icon: 'fa-star', title: 'Best Quality', desc: 'Uncompromising standards in every dish.' },
+    { icon: 'fa-calendar-check', title: 'Online Reservation', desc: 'Easy booking at your convenience.' },
+    { icon: 'fa-lock', title: 'Secure Payment', desc: 'Safe and trusted payment methods.' }
+];
+
+// 7. GALLERY IMAGES (24)
+const galleryImages = [
+    { id: 1, category: 'food', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300' },
+    { id: 2, category: 'food', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300' },
+    { id: 3, category: 'food', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=300' },
+    { id: 4, category: 'food', image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300' },
+    { id: 5, category: 'interior', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300' },
+    { id: 6, category: 'interior', image: 'https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?w=300' },
+    { id: 7, category: 'interior', image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300' },
+    { id: 8, category: 'interior', image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=300' },
+    { id: 9, category: 'kitchen', image: 'https://images.unsplash.com/photo-1556911073-a0c7f39a1a3a?w=300' },
+    { id: 10, category: 'kitchen', image: 'https://images.unsplash.com/photo-1586993464450-d4b8a0d3aa21?w=300' },
+    { id: 11, category: 'kitchen', image: 'https://images.unsplash.com/photo-1581791151450-15fb200c0a3e?w=300' },
+    { id: 12, category: 'kitchen', image: 'https://images.unsplash.com/photo-1581375074612-d1fd0e661aeb?w=300' },
+    { id: 13, category: 'events', image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=300' },
+    { id: 14, category: 'events', image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=300' },
+    { id: 15, category: 'events', image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300' },
+    { id: 16, category: 'events', image: 'https://images.unsplash.com/photo-1530023367847-a683933f4172?w=300' },
+    { id: 17, category: 'staff', image: 'https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=300' },
+    { id: 18, category: 'staff', image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=300' },
+    { id: 19, category: 'staff', image: 'https://images.unsplash.com/photo-1611062623628-9aa17fb97acc?w=300' },
+    { id: 20, category: 'staff', image: 'https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=300' },
+    { id: 21, category: 'food', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300' },
+    { id: 22, category: 'food', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300' },
+    { id: 23, category: 'food', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=300' },
+    { id: 24, category: 'food', image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300' }
+];
+
+// 8. INSTAGRAM FEED (8)
+const instagramImages = [
+    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300',
+    'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300',
+    'https://images.unsplash.com/photo-1550547660-d9450f859349?w=300',
+    'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300',
+    'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=300',
+    'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300',
+    'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300',
+    'https://images.unsplash.com/photo-1529193591184-b1d58069ce2c?w=300'
+];
+
+// 9. BLOG POSTS (6)
+const blogs = [
+    { id: 1, title: '10 Tips for Perfect Pasta', author: 'Chef Marco', date: 'Jan 15, 2026', category: 'Cooking Tips', image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600' },
+    { id: 2, title: 'The Art of Grilling Steak', author: 'Chef James', date: 'Feb 02, 2026', category: 'Recipes', image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=600' },
+    { id: 3, title: 'Seasonal Desserts to Try', author: 'Chef Maria', date: 'Feb 20, 2026', category: 'Desserts', image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600' },
+    { id: 4, title: 'Wine Pairing Guide', author: 'Sommelier Tom', date: 'Mar 05, 2026', category: 'Drinks', image: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600' },
+    { id: 5, title: 'Healthy Eating at Restaurants', author: 'Chef Sarah', date: 'Mar 18, 2026', category: 'Health', image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600' },
+    { id: 6, title: 'Behind the Scenes in Our Kitchen', author: 'Admin', date: 'Apr 01, 2026', category: 'Kitchen', image: 'https://images.unsplash.com/photo-1586993464450-d4b8a0d3aa21?w=600' }
+    ];
+
+// 10. FAQS (15)
+const faqs = [
+    { q: 'What are your opening hours?', a: 'We are open Monday to Friday 11:00 AM to 11:00 PM, and Saturday to Sunday 10:00 AM to 12:00 AM.' },
+    { q: 'Do you take reservations?', a: 'Yes, you can book a table online through our Reservation page or call us directly.' },
+    { q: 'Is there a dress code?', a: 'We recommend smart casual attire for a comfortable dining experience.' },
+    { q: 'Do you offer vegetarian options?', a: 'Absolutely! We have a dedicated vegetarian menu with delicious options.' },
+    { q: 'Can I host a private event?', a: 'Yes, we have private dining rooms available for events and celebrations.' },
+    { q: 'Do you offer delivery?', a: 'Yes, we offer fast delivery through our partners. Order online or call us.' },
+    { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, and digital wallets.' },
+    { q: 'Is there parking available?', a: 'Yes, complimentary valet parking is available for all guests.' },
+    { q: 'Do you have gluten-free options?', a: 'Yes, we offer a variety of gluten-free dishes. Please inform your server.' },
+    { q: 'Can I bring my own wine?', a: 'Corkage fee applies. Please check with our sommelier for details.' },
+    { q: 'Do you have a kids menu?', a: 'Yes, we have a special menu for children with their favorite dishes.' },
+    { q: 'How do I apply for a job?', a: 'Visit our Contact page and send us your resume. We are always hiring.' },
+    { q: 'Are pets allowed?', a: 'Service animals are welcome. Please inform us in advance.' },
+    { q: 'Do you offer cooking classes?', a: 'Yes, we host monthly cooking classes. Check our Blog for updates.' },
+    { q: 'Is there a loyalty program?', a: 'Yes, sign up for our newsletter to get exclusive offers and rewards.' }
+];
+// ==========================================
+// MAIN.JS — Shared behavior across all pages
+// (loading screen, sticky nav, mobile menu,
+//  dark mode, back to top, scroll progress,
+//  search popup, active nav link)
+// ==========================================
+
+// ----- Loading Screen -----
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loading-screen');
+    if (loader) {
+        setTimeout(() => loader.classList.add('hidden'), 400);
+    }
+});
+
+// ----- Sticky Navbar + Scroll Progress + Back to Top -----
+const header = document.querySelector('.header');
+const backToTop = document.getElementById('back-to-top');
+const scrollProgress = document.getElementById('scroll-progress');
+
+function onScroll() {
+    const scrollY = window.scrollY;
+
+    if (header) header.classList.toggle('sticky', scrollY > 50);
+    if (backToTop) backToTop.classList.toggle('visible', scrollY > 400);
+
+    if (scrollProgress) {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+        scrollProgress.style.width = progress + '%';
+    }
+}
+window.addEventListener('scroll', onScroll);
+onScroll();
+
+if (backToTop) {
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ----- Mobile Hamburger Menu -----
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+}
+
+// ----- Dark / Light Mode -----
+const themeToggle = document.getElementById('theme-toggle');
+const savedTheme = localStorage.getItem('gourmet-theme');
+
+if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('gourmet-theme', isDark ? 'dark' : 'light');
+        themeToggle.innerHTML = isDark
+            ? '<i class="fa-solid fa-sun"></i>'
+            : '<i class="fa-solid fa-moon"></i>';
+    });
+}
+
+// ----- Search Popup -----
+const searchIcon = document.getElementById('search-icon');
+const searchPopup = document.getElementById('search-popup');
+const searchClose = document.getElementById('search-close');
+
+if (searchIcon && searchPopup) {
+    searchIcon.addEventListener('click', () => {
+        searchPopup.classList.add('active');
+        const input = searchPopup.querySelector('input');
+        if (input) input.focus();
+    });
+}
+if (searchClose && searchPopup) {
+    searchClose.addEventListener('click', () => searchPopup.classList.remove('active'));
+}
+if (searchPopup) {
+    searchPopup.addEventListener('click', (e) => {
+        if (e.target === searchPopup) searchPopup.classList.remove('active');
+    });
+}
+
+// ----- Active Navigation Link -----
+(function setActiveNavLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (linkPage === currentPage) link.classList.add('active');
+    });
+})();
+
+// ----- Cart Counter (simple demo cart stored in localStorage) -----
+function getCartCount() {
+    return Number(localStorage.getItem('gourmet-cart-count') || 0);
+}
+function updateCartBadge() {
+    const badge = document.querySelector('.cart-count');
+    if (badge) badge.textContent = getCartCount();
+}
+function addToCart() {
+    const count = getCartCount() + 1;
+    localStorage.setItem('gourmet-cart-count', count);
+    updateCartBadge();
+}
+updateCartBadge();
+
+// ----- Scroll Reveal Animation -----
+function initScrollReveal() {
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(el => observer.observe(el));
+}
+
+// ----- Star Rating Helper (used by page scripts) -----
+function starRating(rating) {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.5;
+    let html = '';
+    for (let i = 0; i < full; i++) html += '<i class="fa-solid fa-star"></i>';
+    if (half) html += '<i class="fa-solid fa-star-half-stroke"></i>';
+    const empty = 5 - full - (half ? 1 : 0);
+    for (let i = 0; i < empty; i++) html += '<i class="fa-regular fa-star"></i>';
+    return `<span class="rating">${html} <b>${rating}</b></span>`;
+}
+// ==========================================
+// HOME.JS — Renders all dynamic sections
+// on the Home page using data from data.js
+// ==========================================
+
+// ----- HERO SLIDER -----
+function renderHero() {
+    const slider = document.getElementById('hero-slider');
+    const dotsWrap = document.getElementById('hero-dots');
+    if (!slider || !dotsWrap) return;
+
+    slider.innerHTML = heroSlides.map((slide, i) => `
+        <div class="hero-slide ${i === 0 ? 'active' : ''}" style="background-image:url('${slide.image}')">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-tag">${slide.tag}</span>
+                    <h1>${slide.title}</h1>
+                    <p>${slide.text}</p>
+                    <div class="hero-buttons">
+                        <a href="menu.html" class="btn btn-primary btn-lg">Order Now</a>
+                        <a href="reservation.html" class="btn btn-outline btn-lg">Book a Table</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    dotsWrap.innerHTML = heroSlides.map((_, i) =>
+        `<span data-index="${i}" class="${i === 0 ? 'active' : ''}"></span>`
+    ).join('');
+
+    let current = 0;
+    const slides = slider.querySelectorAll('.hero-slide');
+    const dots = dotsWrap.querySelectorAll('span');
+
+    function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+
+    document.getElementById('hero-prev')?.addEventListener('click', () => goTo(current - 1));
+    document.getElementById('hero-next')?.addEventListener('click', () => goTo(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+    setInterval(() => goTo(current + 1), 6000);
+}
+
+// ----- CATEGORIES -----
+function renderCategories() {
+    const grid = document.getElementById('categories-grid');
+    if (!grid) return;
+    grid.innerHTML = categories.map(cat => `
+        <div class="category-card reveal">
+            <img src="${cat.image}" alt="${cat.name}" loading="lazy">
+            <h3>${cat.name}</h3>
+            <p>${cat.desc}</p>
+        </div>
+    `).join('');
+}
+
+// ----- TODAY'S SPECIAL -----
+function renderSpecials() {
+    const grid = document.getElementById('specials-grid');
+    if (!grid) return;
+    grid.innerHTML = specials.map(item => `
+        <div class="special-card reveal">
+            <div class="special-image">
+                <img src="${item.image}" alt="${item.name}" loading="lazy">
+                <span class="discount-badge">-${item.discount}%</span>
+            </div>
+            <div class="special-info">
+                <h3>${item.name}</h3>
+                <div class="special-meta">
+                    <span class="price">$${item.price.toFixed(2)}</span>
+                    ${starRating(item.rating)}
+                </div>
+                <button class="btn btn-primary" data-add-cart>Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ----- ABOUT HOME -----
+function renderAboutHome() {
+    const img = document.getElementById('about-home-img');
+    const badge = document.getElementById('about-experience-badge');
+    const tag = document.getElementById('about-home-tag');
+    const title = document.getElementById('about-home-title');
+    const text = document.getElementById('about-home-text');
+    const statsWrap = document.getElementById('about-stats');
+    if (!img) return;
+
+    img.src = aboutHome.image;
+    if (badge) badge.innerHTML = `${aboutHome.experienceYears}+<br><small style="font-size:12px;font-weight:500;">Years</small>`;
+    if (tag) tag.textContent = aboutHome.tag;
+    if (title) title.innerHTML = aboutHome.title;
+    if (text) text.textContent = aboutHome.text;
+    if (statsWrap) {
+        statsWrap.innerHTML = aboutHome.stats.map(s => `
+            <div class="stat">
+                <div class="stat-number" data-count="${s.number}">0${s.suffix}</div>
+                <div class="stat-label">${s.label}</div>
+            </div>
+        `).join('');
+    }
+}
+
+// ----- ANIMATED COUNTERS -----
+function initCounters() {
+    const counters = document.querySelectorAll('[data-count]');
+    if (!counters.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = Number(el.getAttribute('data-count'));
+            const suffix = el.textContent.replace(/[0-9]/g, '');
+            let current = 0;
+            const step = Math.max(1, Math.ceil(target / 60));
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = current.toLocaleString() + suffix;
+            }, 25);
+            observer.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach(el => observer.observe(el));
+}
+
+// ----- WHY CHOOSE US -----
+function renderWhyChoose() {
+    const grid = document.getElementById('why-grid');
+    if (!grid) return;
+    grid.innerHTML = whyChoose.map(item => `
+        <div class="why-card reveal">
+            <div class="why-icon"><i class="fa-solid ${item.icon}"></i></div>
+            <h3>${item.title}</h3>
+            <p>${item.desc}</p>
+        </div>
+    `).join('');
+}
+
+// ----- POPULAR MENU (fixed: now correctly pulls food images from data.js) -----
+function renderMenu() {
+    const grid = document.getElementById('menu-grid');
+    if (!grid) return;
+    grid.innerHTML = menuItems.map(item => `
+        <div class="menu-item-card reveal">
+            <img src="${item.image}" alt="${item.name}" loading="lazy">
+            <div class="menu-item-info">
+                <span class="category-tag">${item.category}</span>
+                <h4>${item.name}</h4>
+                <div class="menu-item-meta">
+                    <span class="price">$${item.price.toFixed(2)}</span>
+                    ${starRating(item.rating)}
+                </div>
+                <button class="btn btn-primary" data-add-cart style="width:100%;">Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ----- SPECIAL OFFERS BANNER -----
+function renderOffer() {
+    const tag = document.getElementById('offer-tag');
+    const title = document.getElementById('offer-title');
+    const text = document.getElementById('offer-text');
+    const coupon = document.getElementById('offer-coupon');
+    if (!title) return;
+    if (tag) tag.textContent = offer.tag;
+    title.innerHTML = offer.title;
+    if (text) text.textContent = offer.text;
+    if (coupon) coupon.innerHTML = `<i class="fa-solid fa-tag"></i> ${offer.coupon}`;
+}
+
+// ----- CHEFS -----
+function renderChefs() {
+    const grid = document.getElementById('chefs-grid');
+    if (!grid) return;
+    grid.innerHTML = chefs.map(chef => `
+        <div class="chef-card reveal">
+            <img src="${chef.image}" alt="${chef.name}" loading="lazy">
+            <h3>${chef.name}</h3>
+            <p>${chef.position}</p>
+            <div class="chef-social">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ----- TESTIMONIAL SLIDER -----
+function renderTestimonials() {
+    const track = document.getElementById('testimonial-track');
+    if (!track) return;
+    track.innerHTML = testimonials.map(t => `
+        <div class="testimonial-card">
+            <div class="testimonial-image"><img src="${t.image}" alt="${t.name}" loading="lazy"></div>
+            <div class="testimonial-rating">${'<i class="fa-solid fa-star"></i>'.repeat(t.rating)}</div>
+            <p>"${t.review}"</p>
+            <h4>${t.name}</h4>
+        </div>
+    `).join('');
+
+    let current = 0;
+    const total = testimonials.length;
+    function update() {
+        track.style.transform = `translateX(-${current * 100}%)`;
+    }
+    document.getElementById('testimonial-prev')?.addEventListener('click', () => {
+        current = (current - 1 + total) % total;
+        update();
+    });
+    document.getElementById('testimonial-next')?.addEventListener('click', () => {
+        current = (current + 1) % total;
+        update();
+    });
+    setInterval(() => {
+        current = (current + 1) % total;
+        update();
+    }, 5000);
+}
+
+// ----- GALLERY PREVIEW + FILTER -----
+function renderGallery() {
+    const grid = document.getElementById('gallery-grid');
+    const filterWrap = document.getElementById('gallery-filter');
+    if (!grid) return;
+
+    const preview = galleryImages.slice(0, 12);
+    const cats = ['all', ...new Set(preview.map(g => g.category))];
+
+    if (filterWrap) {
+        filterWrap.innerHTML = cats.map((c, i) =>
+            `<button class="filter-btn ${i === 0 ? 'active' : ''}" data-filter="${c}">${c[0].toUpperCase() + c.slice(1)}</button>`
+        ).join('');
+    }
+
+    function draw(filter) {
+        const items = filter === 'all' ? preview : preview.filter(g => g.category === filter);
+        grid.innerHTML = items.map(g => `
+            <div class="gallery-item reveal">
+                <img src="${g.image}" alt="${g.category}" loading="lazy">
+            </div>
+        `).join('');
+        initScrollReveal();
+    }
+    draw('all');
+
+    filterWrap?.addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        filterWrap.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        draw(btn.dataset.filter);
+    });
+}
+
+// ----- INSTAGRAM FEED -----
+function renderInstagram() {
+    const grid = document.getElementById('instagram-grid');
+    if (!grid) return;
+    grid.innerHTML = instagramImages.map(url => `
+        <div class="insta-item reveal">
+            <img src="${url}" alt="Instagram post" loading="lazy">
+        </div>
+    `).join('');
+}
+
+// ----- NEWSLETTER FORM -----
+function initNewsletter() {
+    const form = document.getElementById('newsletter-form');
+    const msg = document.getElementById('newsletter-msg');
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = form.querySelector('input[type="email"]').value.trim();
+        if (!email) return;
+        if (msg) msg.textContent = `Thanks! We've subscribed ${email} to our newsletter.`;
+        form.reset();
+    });
+}
+
+// ----- ADD TO CART (event delegation, works for dynamically added buttons) -----
+function initAddToCart() {
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-add-cart]')) {
+            addToCart();
+            const original = e.target.textContent;
+            e.target.textContent = 'Added ✓';
+            setTimeout(() => (e.target.textContent = original), 1200);
+        }
+    });
+}
+
+// ----- INIT -----
+document.addEventListener('DOMContentLoaded', () => {
+    renderHero();
+    renderCategories();
+    renderSpecials();
+    renderAboutHome();
+    renderWhyChoose();
+    renderMenu();
+    renderOffer();
+    renderChefs();
+    renderTestimonials();
+    renderGallery();
+    renderInstagram();
+    initNewsletter();
+    initAddToCart();
+    initCounters();
+    initScrollReveal();
+});
+
+    </script>
 </body>
 </html>
